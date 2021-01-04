@@ -50,7 +50,7 @@ jobs:
       -
         name: Test
         run: go test -coverprofile="coverage-${{ matrix.platform }}-${{ matrix.go-version }}.txt" -covermode=atomic ./...
-      -
+      - # if you want to report the coverage to codecov enable the next step
         uses: codecov/codecov-action@v1
         with:
           file: coverage-${{ matrix.platform }}-${{ matrix.go-version }}.txt
