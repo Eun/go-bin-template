@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: 1.14.x
-      -
+      - # if you want to build and release binaries, enable the next step
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v1
         with:
