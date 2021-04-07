@@ -1,0 +1,36 @@
+## This workflow runs when a release was published.
+on:
+  release:
+    types: [published]
+
+name: "release_published"
+jobs:
+  ## Build the binary using GoReleaser
+  build_binary:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v2
+      -
+        name: Get go.mod details
+        uses: Eun/go-mod-details@v1
+        id: go-mod-details
+      -
+        name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ steps.go-mod-details.outputs.go_version }}
+      -
+        name: Login to Docker Registry
+        run: |
+          echo "${{ secrets.DOCKER_TOKEN }}" | \
+          docker login -u ${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      -
+        name: GoReleaser
+        uses: goreleaser/goreleaser-action@v1
+        with:
+          version: latest
+          args: release --rm-dist
+          key: ${{ secrets.YOUR_PRIVATE_KEY }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

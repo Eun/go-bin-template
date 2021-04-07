@@ -1,69 +1,96 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
 builds:
   -
     env:
-      - CGO_ENABLED=0
+      - "CGO_ENABLED=0"
     goos:
-      - aix
-      - darwin
-      - dragonfly
-      - freebsd
-      - linux
-      - netbsd
-      - openbsd
-      - plan9
-      - solaris
-      - windows
+      - "aix"
+      - "darwin"
+      - "dragonfly"
+      - "freebsd"
+      - "linux"
+      - "netbsd"
+      - "openbsd"
+      - "plan9"
+      - "solaris"
+      - "windows"
     goarch:
-      - 386
-      - arm
-      - arm64
-      - amd64
+      - "386"
+      - "arm"
+      - "arm64"
+      - "amd64"
 archives:
   - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     replacements:
-      darwin: darwin
-      linux: linux
-      windows: windows
-      386: i386
-      amd64: x86_64
+      darwin: "darwin"
+      linux: "linux"
+      windows: "windows"
+      386: "i386"
+      amd64: "x86_64"
     format_overrides:
-      - goos: windows
-        format: zip
+      - goos: "windows"
+        format: "zip"
 checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
-  sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
+  skip: true
 nfpms:
   -
-    id: go-bin-template
-    package_name: go-bin-template
+    id: "go-bin-template"
+    package_name: "go-bin-template"
 
     replacements:
-      amd64: 64-bit
-      386: 32-bit
-      darwin: macOS
-      linux: linux
+      amd64: "64-bit"
+      386: "32-bit"
+      darwin: "macOS"
+      linux: "linux"
 
-    homepage: https://github.com/Eun/go-bin-template
-    maintainer: Tobias Salzmann <eun@su.am>
-    description: A template for golang
+    homepage: "https://github.com/Eun/go-bin-template"
+    maintainer: "Tobias Salzmann <tobias@salzmann.berlin>"
+    description: "A template for golang"
 
-    license: MIT
+    license: "MIT"
 
     # Formats to be generated.
     formats:
-      - deb
-      - rpm
+      - "deb"
+      - "rpm"
 
     # Package epoch.
     # Defaults to empty.
     epoch: 1
+dockers:
+  -
+    # GOOS of the built binaries/packages that should be used.
+    goos: "linux"
 
+    # GOARCH of the built binaries/packages that should be used.
+    goarch: "amd64"
+
+    # GOARM of the built binaries/packages that should be used.
+    goarm: ''
+
+    # IDs to filter the binaries/packages.
+    ids:
+      - "go-bin-template"
+
+    image_templates:
+      - "eunts/go-bin-template:{{ .Tag }}"
+      - "eunts/go-bin-template:{{ .Major }}"
+      - "eunts/go-bin-template:{{ .Major }}.{{ .Minor }}"
+      - "eunts/go-bin-template:latest"
+
+    skip_push: false
+    dockerfile: ".github/Dockerfile"
+    use_buildx: true
+
+    # Template of the docker build flags.
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--build-arg=BINARY=go-bin-template"
+      - "--platform=linux/arm64"
