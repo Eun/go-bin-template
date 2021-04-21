@@ -1,11 +1,11 @@
-## This workflow runs when a release was published.
+# this workflow runs when a release was published.
 on:
   release:
     types: [published]
 
 name: "release_published"
 jobs:
-  ## Build the binary using GoReleaser
+  # Build the binary using GoReleaser
   build_binary:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,7 @@ jobs:
         name: Login to Docker Registry
         run: |
           echo "${{ secrets.DOCKER_TOKEN }}" | \
-          docker login -u ${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       -
         name: GoReleaser
         uses: goreleaser/goreleaser-action@v2.5.0
