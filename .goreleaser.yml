@@ -93,4 +93,4 @@ dockers:
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--build-arg=BINARY=go-bin-template"
-      - "--platform=linux/arm64"
+      - "--platform=linux/amd64"
