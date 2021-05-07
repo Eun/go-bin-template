@@ -10,11 +10,10 @@ A golang template for executables
 ## Setup
 1. Adjust `.goreleaser.yml`
 2. Adjust `.golangci.yml`
-3. Setup Dockerhub
 
 
 ## Docker
-1. Create the `DOCKER_USERNAME` and `DOCKER_TOKEN` secret.
+Create the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secret.
 > If you don't need docker remove the `dockers` section in `.goreleaser.yml`
 > and the `Login to Docker Registry` step in `release_published.yml`.
 
