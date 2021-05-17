@@ -1,5 +1,5 @@
 # go-bin-template
-[![Actions Status](https://github.com/Eun/go-bin-template/workflows/CI/badge.svg)](https://github.com/Eun/go-bin-template/actions)
+[![Actions Status](https://github.com/Eun/go-bin-template/workflows/push/badge.svg)](https://github.com/Eun/go-bin-template/actions)
 [![Coverage Status](https://coveralls.io/repos/github/Eun/go-bin-template/badge.svg?branch=master)](https://coveralls.io/github/Eun/go-bin-template?branch=master)
 [![PkgGoDev](https://img.shields.io/badge/pkg.go.dev-reference-blue)](https://pkg.go.dev/github.com/Eun/go-bin-template)
 [![go-report](https://goreportcard.com/badge/github.com/Eun/go-bin-template)](https://goreportcard.com/report/github.com/Eun/go-bin-template)
