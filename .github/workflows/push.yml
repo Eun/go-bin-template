@@ -55,13 +55,13 @@ jobs:
           go-version: ${{ steps.go-mod-details.outputs.go_version }}
       -
         name: Test
-        run: go test -v -count=1 -coverprofile="coverage-${{ matrix.platform }}-${{ matrix.go-version }}.txt" -covermode=atomic
+        run: go test -v -count=1 -coverprofile="coverage-${{ matrix.platform }}-${{ steps.go-mod-details.outputs.go_version }}.cov" -covermode=atomic ./...
       -
         name: Send coverage
         uses: shogo82148/actions-goveralls@v1.4.4
         with:
-          path-to-profile: coverage-${{ matrix.platform }}-${{ matrix.go-version }}.txt
-          flag-name: ${{ matrix.platform }}-${{ matrix.go-version }}
+          path-to-profile: coverage-${{ matrix.platform }}-${{ steps.go-mod-details.outputs.go_version }}.cov
+          flag-name: ${{ matrix.platform }}-${{ steps.go-mod-details.outputs.go_version }}
           parallel: true
 
   # notifies that all test jobs are finished.
