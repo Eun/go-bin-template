@@ -69,9 +69,6 @@ linters-settings:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
     local-prefixes: github.com/Eun/go-bin-template
-  golint:
-    # minimal confidence for issues, default is 0.8
-    min-confidence: 0.8
   gomnd:
     settings:
       mnd:
@@ -141,6 +138,7 @@ linters:
     - dupl
     - errcheck
     - exhaustive
+    - exportloopref
     - funlen
     - gochecknoinits
     - gocognit
@@ -150,7 +148,6 @@ linters:
     - godot
     - gofmt
     - goimports
-    - golint
     - gomnd
     - goprintffuncname
     - gosec
@@ -165,8 +162,8 @@ linters:
     - noctx
     - nolintlint
     - prealloc
+    - revive
     - rowserrcheck
-    - scopelint
     - staticcheck
     - structcheck
     - stylecheck
