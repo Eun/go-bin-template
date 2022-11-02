@@ -1,3 +1,4 @@
+project_name: {{.Env.ProjectName}}
 builds:
   -
     env:
@@ -18,8 +19,17 @@ builds:
       - "arm"
       - "arm64"
       - "amd64"
+    ldflags:
+        - |
+          -s
+          -w
+          -X {{.env.GoPackageName}}/cmd/root.version={{.Version}}
+          -X {{.env.GoPackageName}}/cmd/root.commit={{.Commit}}
+          -X {{.env.GoPackageName}}/cmd/root.date={{.Date}}
+          -X {{.env.GoPackageName}}/cmd/root.author={{.Env.Author}}
+          -X {{.env.GoPackageName}}/cmd/root.description={{.Env.Description}}
 archives:
-  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  - name_template: '{{.ProjectName}}_{{.Os}}_{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}'
     replacements:
       darwin: "darwin"
       linux: "linux"
@@ -37,8 +47,8 @@ changelog:
   skip: true
 nfpms:
   -
-    id: "go-bin-template"
-    package_name: "go-bin-template"
+    id: "{{ProjectName}}"
+    package_name: "{{ProjectName}}"
 
     replacements:
       amd64: "64-bit"
@@ -46,8 +56,8 @@ nfpms:
       darwin: "macOS"
       linux: "linux"
 
-    homepage: "https://github.com/Eun/go-bin-template"
-    maintainer: "Tobias Salzmann <tobias@salzmann.berlin>"
+    homepage: "{{.Env.HomePage}}"
+    maintainer: "{{.Env.Author}} <{{.Env.AuthorEmail}}>"
     description: "A template for golang"
 
     license: "MIT"
@@ -73,24 +83,23 @@ dockers:
 
     # IDs to filter the binaries/packages.
     ids:
-      - "go-bin-template"
+      - "{{.ProjectName}}"
 
     image_templates:
-      - "eunts/go-bin-template:{{ .Tag }}"
-      - "eunts/go-bin-template:{{ .Major }}"
-      - "eunts/go-bin-template:{{ .Major }}.{{ .Minor }}"
-      - "eunts/go-bin-template:latest"
+      - "{{.Env.DockerImage}}:{{.Tag}}"
+      - "{{.Env.DockerImage}}:{{.Major}}"
+      - "{{.Env.DockerImage}}:{{.Major}}.{{.Minor}}"
+      - "{{.Env.DockerImage}}:latest"
 
     skip_push: false
     dockerfile: ".github/Dockerfile"
-    use_buildx: true
 
     # Template of the docker build flags.
     build_flag_templates:
       - "--pull"
-      - "--label=org.opencontainers.image.created={{ .Date }}"
-      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--build-arg=BINARY=go-bin-template"
+      - "--label=org.opencontainers.image.created={{.Date }}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--build-arg=BINARY={{.ProjectName}}"
       - "--platform=linux/amd64"

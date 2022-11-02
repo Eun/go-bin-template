@@ -7,8 +7,9 @@
 A golang template for executables
 
 ## Setup
-1. Adjust `.goreleaser.yml`
-2. Adjust `.golangci.yml`
+1. Adjust `.release.env`
+2. Adjust `.goreleaser.yml`
+3. Adjust `.golangci.yml`
 
 
 ## Docker
@@ -23,3 +24,6 @@ GoReleaser will build the binary and add the binaries it to the release.
 
 ## Notes
 Testing and building will always be done with the go version specified in the `go.mod` file.
+
+## Build History
+[![Build history](https://buildstats.info/github/chart/Eun/go-bin-template?branch=master)](https://github.com/Eun/go-bin-template/actions)
