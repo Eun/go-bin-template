@@ -1,6 +1,7 @@
-project_name: {{.Env.ProjectName}}
+project_name: "${ProjectName}"
 builds:
   -
+    binary: "${ProjectName}"
     env:
       - "CGO_ENABLED=0"
     goos:
@@ -20,16 +21,15 @@ builds:
       - "arm64"
       - "amd64"
     ldflags:
-        - |
-          -s
-          -w
-          -X {{.env.GoPackageName}}/cmd/root.version={{.Version}}
-          -X {{.env.GoPackageName}}/cmd/root.commit={{.Commit}}
-          -X {{.env.GoPackageName}}/cmd/root.date={{.Date}}
-          -X {{.env.GoPackageName}}/cmd/root.author={{.Env.Author}}
-          -X {{.env.GoPackageName}}/cmd/root.description={{.Env.Description}}
+      - -s
+      - -w
+      - -X "${GoPackageName}/cmd/root.version={{.Version}}"
+      - -X "${GoPackageName}/cmd/root.commit={{.Commit}}"
+      - -X "${GoPackageName}/cmd/root.date={{.Date}}"
+      - -X "${GoPackageName}/cmd/root.author=${Author}"
+      - -X "${GoPackageName}/cmd/root.description=${Description}"
 archives:
-  - name_template: '{{.ProjectName}}_{{.Os}}_{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}'
+  - name_template: "${ProjectName}_{{ .Os }}_{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}"
     replacements:
       darwin: "darwin"
       linux: "linux"
@@ -42,13 +42,13 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  name_template: "{{.Tag}}-next"
 changelog:
   skip: true
 nfpms:
   -
-    id: "{{ProjectName}}"
-    package_name: "{{ProjectName}}"
+    id: "${ProjectName}"
+    package_name: "${ProjectName}"
 
     replacements:
       amd64: "64-bit"
@@ -56,8 +56,8 @@ nfpms:
       darwin: "macOS"
       linux: "linux"
 
-    homepage: "{{.Env.HomePage}}"
-    maintainer: "{{.Env.Author}} <{{.Env.AuthorEmail}}>"
+    homepage: "${HomePage}"
+    maintainer: "${Author} <${AuthorEmail}>"
     description: "A template for golang"
 
     license: "MIT"
@@ -83,13 +83,13 @@ dockers:
 
     # IDs to filter the binaries/packages.
     ids:
-      - "{{.ProjectName}}"
+      - "${ProjectName}"
 
     image_templates:
-      - "{{.Env.DockerImage}}:{{.Tag}}"
-      - "{{.Env.DockerImage}}:{{.Major}}"
-      - "{{.Env.DockerImage}}:{{.Major}}.{{.Minor}}"
-      - "{{.Env.DockerImage}}:latest"
+      - "${DockerImage}:{{.Tag}}"
+      - "${DockerImage}:{{.Major}}"
+      - "${DockerImage}:{{.Major}}.{{.Minor}}"
+      - "${DockerImage}:latest"
 
     skip_push: false
     dockerfile: ".github/Dockerfile"
@@ -97,9 +97,9 @@ dockers:
     # Template of the docker build flags.
     build_flag_templates:
       - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date }}"
+      - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--build-arg=BINARY={{.ProjectName}}"
+      - "--build-arg=BINARY=${ProjectName}"
       - "--platform=linux/amd64"
