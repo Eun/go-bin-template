@@ -29,8 +29,6 @@ jobs:
       -
         name: Load Build Variables
         uses: xom9ikk/dotenv@v2
-        with:
-          path: .release.env
       -
         name: GoReleaser
         uses: goreleaser/goreleaser-action@v2.9.1

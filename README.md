@@ -7,7 +7,7 @@
 A golang template for executables
 
 ## Setup
-1. Adjust `.release.env`
+1. Adjust `.env`
 2. Adjust `.goreleaser.yml`
 3. Adjust `.golangci.yml`
 

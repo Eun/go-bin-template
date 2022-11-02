@@ -24,8 +24,6 @@ jobs:
       -
         name: Load Build Variables
         uses: xom9ikk/dotenv@v2
-        with:
-          path: .release.env
       -
         name: Prepare .golangci.yml
         shell: bash
