@@ -19,13 +19,13 @@ var (
 	author      string
 )
 
-var cliFlagLogFile = cli.StringFlag{
+var flagLogFile = cli.StringFlag{
 	Name:   "logfile",
 	Usage:  "Logfile to write to",
 	EnvVar: "LOGFILE",
 	Value:  "",
 }
-var cliFlagDebug = cli.BoolFlag{
+var flagDebug = cli.BoolFlag{
 	Name:   "debug",
 	Usage:  "Enable debug log",
 	EnvVar: "DEBUG",
@@ -41,20 +41,20 @@ func Run() int {
 	app.Description = description
 	app.Author = author
 	app.Flags = []cli.Flag{
-		cliFlagLogFile,
-		cliFlagDebug,
+		flagLogFile,
+		flagDebug,
 	}
 	app.Commands = []cli.Command{
 		hello.Command,
 	}
 	app.Before = func(context *cli.Context) error {
 		loglevel := zerolog.InfoLevel
-		if context.Bool(cliFlagDebug.Name) {
+		if context.Bool(flagDebug.Name) {
 			loglevel = zerolog.DebugLevel
 		}
 		log.Logger = log.Level(loglevel)
 
-		logfilePath := context.String(cliFlagLogFile.Name)
+		logfilePath := context.String(flagLogFile.Name)
 		if logfilePath != "" {
 			var err error
 			//nolint:gomnd // allow magic number 0666
