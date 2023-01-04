@@ -29,7 +29,7 @@ builds:
       - -X "${GoPackageName}/cmd/root.author=${Author}"
       - -X "${GoPackageName}/cmd/root.description=${Description}"
 archives:
-  - name_template: "${ProjectName}_{{ .Os }}_{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}"
+  - name_template: "${ProjectName}_{{.Version}}_{{.Os}}_{{.Arch}}{{if .Arm}}v{{.Arm}}{{end}}"
     replacements:
       darwin: "darwin"
       linux: "linux"
