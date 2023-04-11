@@ -13,7 +13,7 @@ A golang template for executables
 
 
 ## Docker
-Create the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secret.
+Docker images will be pushed to GitHub's registry by default.
 > If you don't need docker remove the `dockers` section in `.goreleaser.yml`
 > and the `Login to Docker Registry` step in `release_published.yml`.
 
