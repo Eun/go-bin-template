@@ -90,6 +90,10 @@ linters:
       - common-false-positives
       - legacy
       - std-error-handling
+    rules:
+      - text: 'shadow: declaration of "err" shadows declaration at line \d+'
+        linters:
+          - govet
     paths:
       - third_party$
       - builtin$
