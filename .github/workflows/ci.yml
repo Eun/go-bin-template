@@ -1,10 +1,8 @@
-# this workflow runs CI checks on all pushes to master and pull requests.
+# this workflow runs CI checks on all pushes and pull requests.
 on:
   pull_request:
     types: [opened, reopened, synchronize]
   push:
-    branches:
-      - 'master'
 
 name: "ci"
 jobs:
