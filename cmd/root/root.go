@@ -3,11 +3,12 @@ package root
 import (
 	"os"
 
-	"github.com/Eun/go-bin-template/cmd/hello"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli"
+
+	"github.com/Eun/go-bin-template/cmd/hello"
 )
 
 var (
@@ -57,7 +58,7 @@ func Run() int {
 		logfilePath := context.String(flagLogFile.Name)
 		if logfilePath != "" {
 			var err error
-			//nolint:gomnd // allow magic number 0666
+			//nolint:mnd // allow magic number 0666
 			logfile, err = os.OpenFile(logfilePath, os.O_RDWR|os.O_CREATE|os.O_APPEND|os.O_SYNC, 0666)
 			if err != nil {
 				return errors.Wrap(err, "unable to create logfile")
