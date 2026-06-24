@@ -35,3 +35,6 @@ jobs:
         run: mise exec -- goreleaser release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY: ghcr.io
+          IMAGE_NAME: eun/go-bin-template
+          IS_LATEST_RELEASE: ${{ !github.event.release.prerelease && github.event.release.make_latest != 'false' }}

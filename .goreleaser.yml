@@ -1,3 +1,6 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
 version: 2
 project_name: "go-bin-template"
 builds:
@@ -43,16 +46,14 @@ nfpms:
     epoch: 1
 dockers:
   -
-    id: "go-bin-template-amd64"
-    goos: "linux"
-    goarch: "amd64"
+    goos: linux
+    goarch: amd64
     ids:
       - "go-bin-template"
-    image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-amd64"
-    skip_push: false
-    dockerfile: ".github/Dockerfile"
     use: buildx
+    image_templates:
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-amd64"
+    dockerfile: ".github/Dockerfile"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -62,16 +63,14 @@ dockers:
       - "--build-arg=BINARY=go-bin-template"
       - "--platform=linux/amd64"
   -
-    id: "go-bin-template-arm64"
-    goos: "linux"
-    goarch: "arm64"
+    goos: linux
+    goarch: arm64
     ids:
       - "go-bin-template"
-    image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-arm64"
-    skip_push: false
-    dockerfile: ".github/Dockerfile"
     use: buildx
+    image_templates:
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-arm64"
+    dockerfile: ".github/Dockerfile"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -82,22 +81,13 @@ dockers:
       - "--platform=linux/arm64"
 docker_manifests:
   -
-    name_template: "ghcr.io/eun/go-bin-template:{{.Tag}}"
+    name_template: "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:latest"
+    skip_push: '{{ if ne .Env.IS_LATEST_RELEASE "true" }}true{{ end }}'
     image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-amd64"
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-arm64"
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-amd64"
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-arm64"
   -
-    name_template: "ghcr.io/eun/go-bin-template:{{.Major}}"
+    name_template: "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}"
     image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-amd64"
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-arm64"
-  -
-    name_template: "ghcr.io/eun/go-bin-template:{{.Major}}.{{.Minor}}"
-    image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-amd64"
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-arm64"
-  -
-    name_template: "ghcr.io/eun/go-bin-template:latest"
-    image_templates:
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-amd64"
-      - "ghcr.io/eun/go-bin-template:{{.Tag}}-arm64"
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-amd64"
+      - "{{.Env.REGISTRY}}/{{.Env.IMAGE_NAME}}:{{.Version}}-arm64"
