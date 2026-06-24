@@ -1,4 +1,4 @@
-# this workflow will run on all pushes and pull requests.
+# this workflow runs CI checks on all pushes to master and pull requests.
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -6,11 +6,7 @@ on:
     branches:
       - 'master'
 
-permissions:
-  contents: write
-  pull-requests: read
-
-name: "push"
+name: "ci"
 jobs:
   # run golangci-lint to lint the golang source code.
   # the configuration is at /.golangci.yml.
@@ -94,18 +90,3 @@ jobs:
       -
         name: Build
         run: mise run build
-
-  # draft your next release notes as pull requests are merged into "master"
-  # the configuration is at /.github/release-drafter.yml.
-  update_release_draft:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: read
-    steps:
-      - uses: release-drafter/release-drafter@v7
-        if: github.ref_name == github.event.repository.default_branch
-        with:
-          config-name: release-drafter.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

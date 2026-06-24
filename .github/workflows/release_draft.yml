@@ -1,0 +1,20 @@
+# this workflow drafts release notes as pull requests are merged into the default branch.
+# the configuration is at /.github/release-drafter.yml.
+on:
+  push:
+    branches:
+      - 'master'
+
+name: "release_draft"
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: release-drafter/release-drafter@v7
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
